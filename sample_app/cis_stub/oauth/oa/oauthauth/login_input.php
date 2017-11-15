@@ -2,6 +2,13 @@
 <body>
 <h1>スクエニメンバーズ</h1>
 <p>ログイン</p>
+<?php
+$result = $_GET['r'];
+if ($result == '1') {
+  echo "<span style=\"color: red;\">ID、PWに誤りがあります</span>";
+  
+}
+?>
 <p>
 <form id="loginForm" name="login" method="post" action="login_exe.php">
   <input type="text" name="sqexid" id="sqexid" value="" class="" placeholder="ID(またはメールアドレス)">
