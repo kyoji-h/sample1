@@ -1,5 +1,5 @@
 <?php
-$url = 'http://test.members2.jp.sqex.tv/login/to/';
+$url = 'http://XXXXXX';
 header("Location: {$url}");
 exit;
 ?>
