@@ -13,7 +13,7 @@ if (!isset($_COOKIE['PHPSESSID'])) {
 window.onload = function() { document.mainForm.submit(); };
 //-->
 </script>
-<form name="mainForm" method="post" action="https://alpha.member.jp.sqex.tv/login/try/?next=http%3A%2F%2Falpha.member.jp.sqex.tv%2F">
+<form name="mainForm" method="post" action="https://XXXXXXX">
 <input name="cis_sessid" type="hidden" value="$session_id">
 <input name="provision" type="hidden" value="">
 <input name="_c" type="hidden" value="1">

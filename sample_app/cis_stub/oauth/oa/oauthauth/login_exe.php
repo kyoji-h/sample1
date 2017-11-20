@@ -9,12 +9,17 @@ $password = 'root';
 try{
   $dbh = new PDO($dsn, $user, $password);
   $user_info = get_user_info($dbh);
+
   if ($user_info) {
-    echo "<html><body>pan!</body></html>";
+    session_start();
+
+    header("Location: login_comp.php");
+
   } else {
     header("Location: login_input.php?r=1");
-    exit;
   }
+  exit;
+
 }catch (PDOException $e){
   print('Error:'.$e->getMessage());
   exit;
