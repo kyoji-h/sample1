@@ -1,17 +1,18 @@
 <?php
 
 $dsn = 'mysql:host=127.0.0.1:3306;dbname=cisdb';
-//$user = 'cisuser';
-$user = 'root';
-//$password = 'password';
-$password = 'root';
+$user = 'cisuser';
+//$user = 'root';
+$password = 'password';
+//$password = 'root';
 
 try{
   $dbh = new PDO($dsn, $user, $password);
-  $user_info = get_user_info($dbh);
+  $userInfo = getUserInfo($dbh);
 
-  if ($user_info) {
+  if ($userInfo) {
     session_start();
+    $_SESSION['id'] = $userInfo['id'];
 
     header("Location: login_comp.php");
 
@@ -25,21 +26,21 @@ try{
   exit;
 }
 
-function get_user_info($dbh) {
+function getUserInfo($dbh) {
   $id = $_POST['sqexid'];
   $pw = $_POST['password'];
 
-  //print($id.' '.$pw);
-  $sql = 'select id from cis_users where sqex_id = :sqexid and password = :pw';
-  $stmt = $dbh->prepare($sql);
+  $sqlUserSel = 'select id from cis_users where sqex_id = :sqexid and password = :pw';
+  $stmt = $dbh->prepare($sqlUserSel);
   $stmt->execute(array(
     ':sqexid' => $id,
     ':pw' => $pw
   ));
   $result = $stmt->fetch(PDO::FETCH_ASSOC);
-  if ($result) {
-    $result = true;
-  }
+  //if ($result) {
+  //  $result = true;
+  //}
+
   return $result;
 }
 
