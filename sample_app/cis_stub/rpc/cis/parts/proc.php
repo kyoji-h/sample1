@@ -1,4 +1,6 @@
 <?php
+include_once 'log.php';
+
 function connectDB(){
   $dsn = 'mysql:host=127.0.0.1:3306;dbname=cisdb';
   $user = 'cisuser';
@@ -53,7 +55,39 @@ function getDataAuthSessionAvailableEx($params){
     );
   }
 
+  outputLog('$resultData'.var_export($resultData, true));
+
   return $resultData;
 }
 
+function getDataUserGetUsrtyp($params){
+  $dbh = connectDB();
+
+  $userId = $params['userInfo']['userid'];
+
+  $sqlUserSel = 'select user_type from cis_users where cis_user_id = :userid';
+  $stmt = $dbh->prepare($sqlUserSel);
+  $stmt->execute(array(
+    ':userid' => $userId,
+  ));
+  $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+  if ($result) {
+    $userType = $result['user_type'];
+
+    $resultData = array(
+      'status' => '0',
+      'userType' => $userType,
+    );
+  } else {
+    $resultData = array(
+      'status' => '1',
+      'userType' => null,
+    );
+  }
+
+  outputLog('$resultData'.var_export($resultData, true));
+
+  return $resultData;
+}
 ?>

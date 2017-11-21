@@ -1,9 +1,18 @@
 <?php
-include 'parts/proc.php';
+include_once 'parts/proc.php';
+include_once 'parts/log.php';
 
-if(isset($_POST["method"])) {
-  $method = $_POST["method"];
-  $params = $_POST["params"];
+outputLog('[start]rpc/cis/index.php');
+
+$jsonString = file_get_contents('php://input');
+$jsonObj = json_decode($jsonString, true);
+
+if(isset($jsonObj["method"])) {
+  $method = $jsonObj["method"];
+  $params = $jsonObj["params"];
+
+  outputLog('$method:'.$method);
+  outputLog('$params:'.var_export($params, true));
 
   switch ($method) {
     case 'AuthSessionAvailableEx':
