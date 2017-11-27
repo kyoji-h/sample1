@@ -90,4 +90,75 @@ function getDataUserGetUsrtyp($params){
 
   return $resultData;
 }
+
+function getDataContractGetAllAcountList($params){
+  $dbh = connectDB();
+
+  $userId = $params['userInfo']['userid'];
+  $cId = $params['cid'];
+
+  $sqlServiceUserSel = 'select cis_acc_id from cis_service_users where contents_id = :cid and cis_user_id = :userid';
+  $stmt = $dbh->prepare($sqlServiceUserSel);
+  $stmt->execute(array(
+    ':cid' => $cId,
+    ':userid' => $userId,
+  ));
+  $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+  if ($result) {
+    $cisAccId = $result['cis_acc_id'];
+
+    $resultData = array(
+      'status' => 0,
+      'contentInfoList' => array(
+        0 => array(
+          'accid' => $cisAccId,
+          'cid' => $cId,
+          'status' => 0,
+        )
+      )
+    );
+  } else {
+    $resultData = array(
+      'status' => 1,
+      'userType' => array(),
+    );
+  }
+
+  outputLog('$resultData'.var_export($resultData, true));
+
+  return $resultData;
+}
+
+function getDataAuthServiceLogin($params){
+  $dbh = connectDB();
+
+  $userId = $params['userInfo']['userid'];
+  $accId = $params['accid'];
+
+  $sqlServiceUserSel = 'select cis_acc_id from cis_service_users where cis_acc_id = :accid and cis_user_id = :userid';
+  $stmt = $dbh->prepare($sqlServiceUserSel);
+  $stmt->execute(array(
+    ':accid' => $accId,
+    ':userid' => $userId,
+  ));
+  $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+  if ($result) {
+    $resultData = array(
+      'status' => 0,
+      'result' => 0
+    );
+  } else {
+    $resultData = array(
+      'status' => 1,
+      'result' => 18
+    );
+  }
+
+  outputLog('$resultData'.var_export($resultData, true));
+
+  return $resultData;
+}
+
 ?>

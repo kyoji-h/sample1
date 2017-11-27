@@ -21,6 +21,15 @@ if(isset($jsonObj["method"])) {
     case 'UserGetUsrtyp':
       $data = getDataUserGetUsrtyp($params);
       break;
+    case 'ContractGetAllAccountList':
+      $data = getDataContractGetAllAcountList($params);
+      break;
+    case 'AuthServiceLogin':
+      $data = getDataAuthServiceLogin($params);
+      break;
+    case 'ContractStartTransaction':
+      $data = getDataContractStartTransaction($params);
+      break;
     default:
       $data = array();
   }
