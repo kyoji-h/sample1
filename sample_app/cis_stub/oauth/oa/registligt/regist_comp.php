@@ -5,12 +5,12 @@ session_start();
 
 if (!isset($_COOKIE['PHPSESSID'])) {
 
-  header("Location: login_input.php?r=2");
+  header("Location: regist_input.php?r=nosesid");
 } else {
 
   $dbh = connectDB();
   if (is_null($dbh)) {
-    header("Location: login_input.php?r=2");
+    header("Location: regist_input.php?r=dbaccesserr");
     exit;
   }
 
@@ -25,18 +25,18 @@ if (!isset($_COOKIE['PHPSESSID'])) {
   ));
 
   $html = <<<EOF
-<script type="text/javascript">
-//<!--
-window.onload = function() { document.mainForm.submit(); };
-//-->
-</script>
-<form name="mainForm" method="post" action="https://XXXXXX">
-<input name="cis_sessid" type="hidden" value="$sessionId">
-<input name="provision" type="hidden" value="">
-<input name="_c" type="hidden" value="1">
+<html>
+<body>
+<p>登録完了しました。</p>
+<form id="mainForm" name="main" method="post" action="http://xxxx">
+  <a href="javascript:document.main.submit();" class=""><span>次へ</span></a>
+  <input name="cis_sessid" type="hidden" value="$sessionId">
+  <input name="_c" type="hidden" value="1">
 </form>
+<body>
+</html>
 EOF;
-  //$html = $id . '  ' . $sessionId;
+  //$html = $userid . '  ' . $sessionId;
 
   echo $html;
 

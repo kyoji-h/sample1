@@ -1,38 +1,23 @@
 <?php
-include_once 'log.php';
-
-function connectDB(){
-  $dsn = 'mysql:host=127.0.0.1:3306;dbname=cisdb';
-  $user = 'cisuser';
-  $password = 'password';
-
-  try {
-    $dbh = new PDO($dsn, $user, $password);
-  } catch(PDOException $e) {
-    $dbh = null;
-  }
-  return $dbh;
-}
-
-function getDataW(){
-  $dataW = array(
-    'kakegoe' => 'oraa!',
-    'level' => 'B',
-  );
-  return  $dataW;
-}
+include_once '../../common/dbaccess.php';
+include_once '../../common/log.php';
 
 function getDataAuthSessionAvailableEx($params){
   $dbh = connectDB();
+  if (is_null($dbh)) {
+    outputLog('Error:PDOException発生');
+    $result = false;
 
-  $sessionId = $params['sessionId'];
+  } else {
+    $sessionId = $params['sessionId'];
 
-  $sqlUserSel = 'select cis_user_id from cis_users where session_id = :sesid';
-  $stmt = $dbh->prepare($sqlUserSel);
-  $stmt->execute(array(
-    ':sesid' => $sessionId,
-  ));
-  $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    $sqlUserSel = 'select cis_user_id from cis_users where session_id = :sesid';
+    $stmt = $dbh->prepare($sqlUserSel);
+    $stmt->execute(array(
+      ':sesid' => $sessionId,
+    ));
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+  }
 
   if ($result) {
     $cisUserId = $result['cis_user_id'];
@@ -45,12 +30,12 @@ function getDataAuthSessionAvailableEx($params){
       'sessionId' => $sessionId,
     );
     $resultData = array(
-      'status' => '0',
+      'status' => 0,
       'userInfo' => $userInfo,
     );
   } else {
     $resultData = array(    
-      'status' => '1',
+      'status' => 1,
       'userInfo' => array(),
     );
   }
@@ -62,26 +47,31 @@ function getDataAuthSessionAvailableEx($params){
 
 function getDataUserGetUsrtyp($params){
   $dbh = connectDB();
+  if (is_null($dbh)) {
+    outputLog('Error:PDOException発生');
+    $result = false;
 
-  $userId = $params['userInfo']['userid'];
+  } else {
+    $userId = $params['userInfo']['userid'];
 
-  $sqlUserSel = 'select user_type from cis_users where cis_user_id = :userid';
-  $stmt = $dbh->prepare($sqlUserSel);
-  $stmt->execute(array(
-    ':userid' => $userId,
-  ));
-  $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    $sqlUserSel = 'select user_type from cis_users where cis_user_id = :userid';
+    $stmt = $dbh->prepare($sqlUserSel);
+    $stmt->execute(array(
+      ':userid' => $userId,
+    ));
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+  }
 
   if ($result) {
     $userType = $result['user_type'];
 
     $resultData = array(
-      'status' => '0',
+      'status' => 0,
       'userType' => $userType,
     );
   } else {
     $resultData = array(
-      'status' => '1',
+      'status' => 1,
       'userType' => null,
     );
   }
@@ -93,17 +83,22 @@ function getDataUserGetUsrtyp($params){
 
 function getDataContractGetAllAcountList($params){
   $dbh = connectDB();
+  if (is_null($dbh)) {
+    outputLog('Error:PDOException発生');
+    $result = false;
 
-  $userId = $params['userInfo']['userid'];
-  $cId = $params['cid'];
+  } else {
+    $userId = $params['userInfo']['userid'];
+    $cId = $params['cid'];
 
-  $sqlServiceUserSel = 'select cis_acc_id from cis_service_users where contents_id = :cid and cis_user_id = :userid';
-  $stmt = $dbh->prepare($sqlServiceUserSel);
-  $stmt->execute(array(
-    ':cid' => $cId,
-    ':userid' => $userId,
-  ));
-  $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    $sqlServiceUserSel = 'select cis_acc_id from cis_service_users where contents_id = :cid and cis_user_id = :userid';
+    $stmt = $dbh->prepare($sqlServiceUserSel);
+    $stmt->execute(array(
+      ':cid' => $cId,
+      ':userid' => $userId,
+    ));
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+  }
 
   if ($result) {
     $cisAccId = $result['cis_acc_id'];
@@ -132,17 +127,22 @@ function getDataContractGetAllAcountList($params){
 
 function getDataAuthServiceLogin($params){
   $dbh = connectDB();
+  if (is_null($dbh)) {
+    outputLog('Error:PDOException発生');
+    $result = false;
 
-  $userId = $params['userInfo']['userid'];
-  $accId = $params['accid'];
+  } else {
+    $userId = $params['userInfo']['userid'];
+    $accId = $params['accid'];
 
-  $sqlServiceUserSel = 'select cis_acc_id from cis_service_users where cis_acc_id = :accid and cis_user_id = :userid';
-  $stmt = $dbh->prepare($sqlServiceUserSel);
-  $stmt->execute(array(
-    ':accid' => $accId,
-    ':userid' => $userId,
-  ));
-  $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    $sqlServiceUserSel = 'select cis_acc_id from cis_service_users where cis_acc_id = :accid and cis_user_id = :userid';
+    $stmt = $dbh->prepare($sqlServiceUserSel);
+    $stmt->execute(array(
+      ':accid' => $accId,
+      ':userid' => $userId,
+    ));
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+  }
 
   if ($result) {
     $resultData = array(

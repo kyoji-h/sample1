@@ -1,13 +1,15 @@
 <html>
 <body>
-<h1>スクエニメンバーズ</h1>
+<h1>(開発)スクエニメンバーズ</h1>
 <p>ログイン</p>
 <?php
-$result = $_GET['r'];
-if ($result == '1') {
-  echo "<span style=\"color: red;\">ID、PWに誤りがあります</span>";
-} elseif ($result == '2') {
-  echo "<span style=\"color: red;\">処理に失敗しました</span>";
+if (isset($_GET['r'])) {
+  $result = $_GET['r'];
+  if ($result == '1') {
+    echo "<span style=\"color: red;\">ID、PWに誤りがあります</span>";
+  } elseif ($result == '2') {
+    echo "<span style=\"color: red;\">処理に失敗しました</span>";
+  }
 }
 ?>
 <p>

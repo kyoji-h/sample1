@@ -1,6 +1,6 @@
 <?php
 include_once 'parts/proc.php';
-include_once 'parts/log.php';
+include_once '../../common/log.php';
 
 outputLog('[start]rpc/cis/index.php');
 
@@ -40,12 +40,7 @@ if(isset($jsonObj["method"])) {
 returnJson($data);
 
 function returnJson($resultArray){
-  if(array_key_exists('callback', $_GET)){
-    $json = $_GET['callback'] . "(" . json_encode($resultArray) . ");";
-  }else{
-    $json = json_encode($resultArray);
-  }
-//  header('Content-Type: text/html; charset=utf-8');
+  $json = json_encode($resultArray);
   header('Content-Type: application/json; charset=utf-8');
   echo  $json;
   exit(0);
