@@ -30,6 +30,9 @@ if(isset($jsonObj["method"])) {
     case 'ContractStartTransaction':
       $data = getDataContractStartTransaction($params);
       break;
+    case 'UserGetUserBasicSlim':
+      $data = getDataUserGetUserBasicSlim($params);
+      break;
     default:
       $data = array();
   }

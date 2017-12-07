@@ -12,32 +12,38 @@ if (isset($_GET['r'])) {
     case 'regvalid2':
       echo "<span style=\"color: red;\">IDは半角英数字で入力してください</span>";
       break;
-    case 'regvalid3';
+    case 'regvalid3':
       echo "<span style=\"color: red;\">IDは10桁以内で入力してください</span>";
       break;
-    case 'regvalpw1';
+    case 'regvalpw1':
       echo "<span style=\"color: red;\">PWが入力されていません</span>";
       break;
-    case 'regvalpw2';
+    case 'regvalpw2':
       echo "<span style=\"color: red;\">PWは半角英数字記号で入力してください</span>";
       break;
-    case 'regvalpw3';
+    case 'regvalpw3':
       echo "<span style=\"color: red;\">PWは20桁以内で入力してください</span>";
       break;
-    case 'regvalmail1';
+    case 'regvalmail1':
       echo "<span style=\"color: red;\">メールアドレスが入力されていません</span>";
       break;
-    case 'regvalmail2';
+    case 'regvalmail2':
       echo "<span style=\"color: red;\">メールアドレスの形式で入力してください</span>";
       break;
-    case 'regvalbirth1';
+    case 'regvalbirth1':
       echo "<span style=\"color: red;\">生年月日が入力されていません</span>";
       break;
-    case 'regvalbirth2';
+    case 'regvalbirth2':
       echo "<span style=\"color: red;\">生年月日は選択肢より選んでください</span>";
       break;
-    case 'regvalbirth3';
+    case 'regvalbirth3':
       echo "<span style=\"color: red;\">生年月日は正しい日付ではありません</span>";
+      break;
+    case 'regdupid':
+      echo "<span style=\"color: red;\">IDはすでに使用されています。</span>";
+      break;
+    case 'regdupemail':
+      echo "<span style=\"color: red;\">メールアドレスはすでに使用されています。</span>";
       break;
     default:
       echo "<span style=\"color: red;\">エラーが発生しました</span>";
@@ -119,6 +125,7 @@ if (isset($_GET['r'])) {
   <button type="submit" id="regist-button" class="">登録</button>
 </form>
 </p>
+<a href="http://XXXX">メンバーズトップへ</a>
 <body>
 </html>
 

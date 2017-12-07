@@ -32,6 +32,12 @@ if (is_null($dbh)) {
   exit;
 }
 
+$chkResult = checkParams($dbh, $postParams);
+if (!is_null($chkResult)) {
+  header("Location: regist_input.php?r=$chkResult");
+  exit;
+}
+
 $cisUserId = registUserInfo($dbh, $postParams);
 if (isExist($cisUserId)) {
   session_start();
@@ -151,6 +157,35 @@ function validateParams($postParams) {
   return null;
 }
 
+function checkParams($dbh, $postParams) {
+  $id = $postParams['id'];
+  $email = $postParams['email'];
+
+  $sqlUserSelById = 'select cis_user_id from cis_users where sqex_id = :sqexid';
+  $stmt = $dbh->prepare($sqlUserSelById);
+  $stmt->execute(array(
+    ':sqexid' => $id
+  ));
+  $userInfo = $stmt->fetch(PDO::FETCH_ASSOC);
+  if ($userInfo) {
+    return 'regdupid';
+  }
+  outputLog('$userInfo sqexid duplicate check:'.var_export(array($userInfo), true));
+
+  $sqlUserSelByEmail = 'select cis_user_id from cis_users where mail_address = :email';
+  $stmt = $dbh->prepare($sqlUserSelByEmail);
+  $stmt->execute(array(
+    ':email' => $email,
+  ));
+  $userInfo = $stmt->fetch(PDO::FETCH_ASSOC);
+  if ($userInfo) {
+    return 'regdupemail';
+  }
+  outputLog('$userInfo email duplicate check:'.var_export(array($userInfo), true));
+
+  return null;
+}
+
 function registUserInfo($dbh, $postParams) {
   $id = $postParams['id'];
   $pw = $postParams['pw'];
@@ -177,9 +212,13 @@ function registUserInfo($dbh, $postParams) {
   ));
   $userInfo = $stmt->fetch(PDO::FETCH_ASSOC);
 
-  $cisUserId = $userInfo['cis_user_id'];
+  if ($userInfo) {
+    $cisUserId = $userInfo['cis_user_id'];
+  } else {
+    return null;
+  }
 
-  outputLog('$arg insert cis_service_users:'.var_export(array($cisUserId), true));
+  outputLog('$cis_user_id insert:'.var_export(array($cisUserId), true));
 
   $sqlServiceUserIns = 'insert into cis_service_users (contents_id,cis_user_id) values (:cid,:userid)';
   $stmt = $dbh->prepare($sqlServiceUserIns);

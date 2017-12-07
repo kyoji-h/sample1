@@ -161,4 +161,50 @@ function getDataAuthServiceLogin($params){
   return $resultData;
 }
 
+function getDataUserGetUserBasicSlim($params){
+  $dbh = connectDB();
+  if (is_null($dbh)) {
+    outputLog('Error:PDOException発生');
+    $result = false;
+
+  } else {
+    $userId = $params['userInfo']['userid'];
+
+    $sqlUserSel = 'select sqex_id,user_type from cis_users where cis_user_id = :userid';
+    $stmt = $dbh->prepare($sqlUserSel);
+    $stmt->execute(array(
+      ':userid' => $userId,
+    ));
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+  }
+
+  if ($result) {
+    $sqexId = $result['sqex_id'];
+    $userType = $result['user_type'];
+
+    $resultData = array(
+      'status' => 0,
+      'userBasicSlimInfo' => array(
+        'sqexid' => $sqexId,
+        'usrtyp' => $userType,
+        'levdat' => array(
+          'year' => 0
+        ),
+        'bandat' => array(
+          'year' => 0
+        ),
+      )
+    );
+  } else {
+    $resultData = array(
+      'status' => 1,
+      'userBasicSlimInfo' => array(),
+    );
+  }
+
+  outputLog('$resultData'.var_export($resultData, true));
+
+  return $resultData;
+}
+
 ?>

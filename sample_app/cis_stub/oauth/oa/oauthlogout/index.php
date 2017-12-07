@@ -1,7 +1,7 @@
 <?php
 setcookie(session_name(), '', time() - 1800, '/');
 
-$url = 'http://XXXXXX';
-header("Location: {$url}");
+$redirectUri = $_GET['redirect_uri'];
+header("Location: {$redirectUri}");
 exit;
 ?>
