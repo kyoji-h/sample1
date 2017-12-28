@@ -5,7 +5,7 @@ include_once '../../common/log.php';
 function getDataAuthSessionAvailableEx($params){
   $dbh = connectDB();
   if (is_null($dbh)) {
-    outputLog('Error:PDOException発生');
+    outputApiLog('Error:PDOException発生');
     $result = false;
 
   } else {
@@ -40,7 +40,7 @@ function getDataAuthSessionAvailableEx($params){
     );
   }
 
-  outputLog('$resultData'.var_export($resultData, true));
+  outputApiLog('$resultData'.var_export($resultData, true));
 
   return $resultData;
 }
@@ -48,7 +48,7 @@ function getDataAuthSessionAvailableEx($params){
 function getDataUserGetUsrtyp($params){
   $dbh = connectDB();
   if (is_null($dbh)) {
-    outputLog('Error:PDOException発生');
+    outputApiLog('Error:PDOException発生');
     $result = false;
 
   } else {
@@ -76,7 +76,7 @@ function getDataUserGetUsrtyp($params){
     );
   }
 
-  outputLog('$resultData'.var_export($resultData, true));
+  outputApiLog('$resultData'.var_export($resultData, true));
 
   return $resultData;
 }
@@ -84,7 +84,7 @@ function getDataUserGetUsrtyp($params){
 function getDataContractGetAllAcountList($params){
   $dbh = connectDB();
   if (is_null($dbh)) {
-    outputLog('Error:PDOException発生');
+    outputApiLog('Error:PDOException発生');
     $result = false;
 
   } else {
@@ -120,7 +120,7 @@ function getDataContractGetAllAcountList($params){
     );
   }
 
-  outputLog('$resultData'.var_export($resultData, true));
+  outputApiLog('$resultData'.var_export($resultData, true));
 
   return $resultData;
 }
@@ -128,7 +128,7 @@ function getDataContractGetAllAcountList($params){
 function getDataAuthServiceLogin($params){
   $dbh = connectDB();
   if (is_null($dbh)) {
-    outputLog('Error:PDOException発生');
+    outputApiLog('Error:PDOException発生');
     $result = false;
 
   } else {
@@ -156,15 +156,23 @@ function getDataAuthServiceLogin($params){
     );
   }
 
-  outputLog('$resultData'.var_export($resultData, true));
+  outputApiLog('$resultData'.var_export($resultData, true));
 
+  return $resultData;
+}
+
+function getDataContractStartTransaction($params){
+  $resultData = array(
+      'status' => 0,
+      'transactionInfo' => array()
+  );
   return $resultData;
 }
 
 function getDataUserGetUserBasicSlim($params){
   $dbh = connectDB();
   if (is_null($dbh)) {
-    outputLog('Error:PDOException発生');
+    outputApiLog('Error:PDOException発生');
     $result = false;
 
   } else {
@@ -202,7 +210,53 @@ function getDataUserGetUserBasicSlim($params){
     );
   }
 
-  outputLog('$resultData'.var_export($resultData, true));
+  outputApiLog('$resultData'.var_export($resultData, true));
+
+  return $resultData;
+}
+
+function getDataUserGetUserBasic($params){
+  $resultData = array(
+      'status' => 1,
+      'userBasicInfo' => array()
+  );
+  return $resultData;
+}
+
+function getDataMailSend3($params){
+  $resultData = array(
+      'status' => 1
+  );
+  return $resultData;
+}
+
+function getDataContractCancelAccount($params){
+  $dbh = connectDB();
+  if (is_null($dbh)) {
+    outputApiLog('Error:PDOException発生');
+    $result = false;
+
+  } else {
+    $userId = $params['userInfo']['userid'];
+
+    $sqlUserDel = 'delete from cis_users where cis_user_id = :userid';
+    $stmt = $dbh->prepare($sqlUserDel);
+    $stmt->execute(array(
+      ':userid' => $userId,
+    ));
+
+    $sqlServiceUserDel = 'delete from cis_service_users where cis_user_id = :userid';
+    $stmt = $dbh->prepare($sqlServiceUserDel);
+    $stmt->execute(array(
+      ':userid' => $userId,
+    ));
+  }
+
+  $resultData = array(
+    'status' => 1,
+  );
+
+  outputApiLog('$resultData'.var_export($resultData, true));
 
   return $resultData;
 }

@@ -2,7 +2,7 @@
 include_once 'parts/proc.php';
 include_once '../../common/log.php';
 
-outputLog('[start]rpc/cis/index.php');
+outputApiLog('[start]rpc/cis/index.php');
 
 $jsonString = file_get_contents('php://input');
 $jsonObj = json_decode($jsonString, true);
@@ -11,8 +11,8 @@ if(isset($jsonObj["method"])) {
   $method = $jsonObj["method"];
   $params = $jsonObj["params"];
 
-  outputLog('$method:'.$method);
-  outputLog('$params:'.var_export($params, true));
+  outputApiLog('$method:'.$method);
+  outputApiLog('$params:'.var_export($params, true));
 
   switch ($method) {
     case 'AuthSessionAvailableEx':
@@ -32,6 +32,15 @@ if(isset($jsonObj["method"])) {
       break;
     case 'UserGetUserBasicSlim':
       $data = getDataUserGetUserBasicSlim($params);
+      break;
+    case 'UserGetUserBasic':
+      $data = getDataUserGetUserBasic($params);
+      break;
+    case 'MailSend3':
+      $data = getDataMailSend3($params);
+      break;
+    case 'ContractCancelAccount':
+      $data = getDataContractCancelAccount($params);
       break;
     default:
       $data = array();
